@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Quanti astronauti sono nello spazio adesso?</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <link rel="stylesheet" type="text/css" href="css/normalize.css">
+
+  <!-- jQuery
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="fullpagewrap">
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+        <div id="wrapper">
+          <div id="question">
+              <h1>Quanti astronauti sono nello spazio in questo momento?</h1>
+              <a href="javascript:void(0)" id="check-link">Fammelo sapere!</a>
+          </div>
+          <div id="answer">
+              <h2>Al momento ci sono <span id="spacepeeps"></span> astronauti nello spazio.</h2>
+              <div class="name">
+                  <ul id="astronames"></ul></div>
+            </div>
+        </div>
+      </div>
+    
+
+<!-- Scripts
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script>
+    $(document).ready(function(){
+      $('#answer').css('display', 'none');
+      $("#check-link").click(function(){
+        $('#check-link').css('display', 'none');
+        $.getJSON('http://api.open-notify.org/astros.json?callback=?', function(data) {
+          var number = data['number'];
+          $('#spacepeeps').append(number);                      
+          data['people'].forEach(function (data) {
+              $('#astronames').append('<li>' + data['name'] + ' (' + data['craft'] +')</li>');
+          });
+        });
+        $('#answer').css('display', 'block');
+      });
+    });
+</script>
+<script>
+$.getJSON('https://api.nasa.gov/planetary/apod?api_key=DlC1RULSsOXJrW8My9PSitIBgyeyrwTsSEKIt3Jk', function(data) {
+  var url = data['hdurl']
+  $('#fullpagewrap').css('background', 'url(' + url + ')');
+
+});
+</script>
+
+<!-- End Document
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+</body>
+</html>
